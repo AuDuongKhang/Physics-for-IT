@@ -1,0 +1,307 @@
+[
+    {
+        "id": "bf8a953dce163272",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "8778f74008b1a4a8",
+        "type": "ui_form",
+        "z": "bf8a953dce163272",
+        "name": "",
+        "label": "Dashboard sign-in",
+        "group": "2ddba30bed38b39a",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "username",
+                "value": "username",
+                "type": "text",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "password",
+                "value": "password",
+                "type": "password",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "username": "",
+            "password": ""
+        },
+        "payload": "",
+        "submit": "submit",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": "",
+        "className": "",
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "ef2d3e6a638581d0",
+                "82e5a4fc408b31fb"
+            ]
+        ]
+    },
+    {
+        "id": "ef2d3e6a638581d0",
+        "type": "function",
+        "z": "bf8a953dce163272",
+        "name": "Account verification",
+        "func": "if (msg.payload.username === \"admin\" && msg.payload.password === \"admin\") {\n    msg.payload = \"Successfully login\";\n}\nelse {\n    msg.payload = \"Sign-in failed\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "82e5a4fc408b31fb",
+                "aa4f322b338be212"
+            ]
+        ]
+    },
+    {
+        "id": "82e5a4fc408b31fb",
+        "type": "debug",
+        "z": "bf8a953dce163272",
+        "name": "Debug Account log",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 650,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "c4ee5e542d0c78aa",
+        "type": "ui_ui_control",
+        "z": "bf8a953dce163272",
+        "name": "Go to home page",
+        "events": "all",
+        "x": 810,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "773ee394c8f3780f",
+        "type": "ui_toast",
+        "z": "bf8a953dce163272",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": false,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "Cancel",
+        "raw": true,
+        "className": "",
+        "topic": "Status login",
+        "name": "Authentication Failure Dialog",
+        "x": 1100,
+        "y": 160,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a3658ada37aa94ce",
+        "type": "ui_text_input",
+        "z": "bf8a953dce163272",
+        "name": "Họ tên",
+        "label": " Họ tên: Âu Dương Khang",
+        "tooltip": "",
+        "group": "514c8da43130db42",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 990,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4ffaa3522b331812",
+        "type": "ui_text_input",
+        "z": "bf8a953dce163272",
+        "name": "Lớp",
+        "label": "Lớp: 21CLC1",
+        "tooltip": "",
+        "group": "514c8da43130db42",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 990,
+        "y": 420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "3a369cbdf2230910",
+        "type": "ui_text_input",
+        "z": "bf8a953dce163272",
+        "name": "MSSV",
+        "label": "MSSV: 21127621",
+        "tooltip": "",
+        "group": "514c8da43130db42",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "mode": "text",
+        "delay": 300,
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 990,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "1f3a28978782c7af",
+        "type": "function",
+        "z": "bf8a953dce163272",
+        "name": "Success",
+        "func": "msg.topic = \"Successfully login.\";\nmsg.payload = {\"tab\": \"Home\"};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 260,
+        "wires": [
+            [
+                "c4ee5e542d0c78aa"
+            ]
+        ]
+    },
+    {
+        "id": "e3ba9af92efded22",
+        "type": "function",
+        "z": "bf8a953dce163272",
+        "name": "Failed",
+        "func": "msg.payload = {\"tab\": \"Login\"};\nmsg.payload = \"Sign-in failed, your username or password is wrong.\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 100,
+        "wires": [
+            [
+                "773ee394c8f3780f"
+            ]
+        ]
+    },
+    {
+        "id": "aa4f322b338be212",
+        "type": "switch",
+        "z": "bf8a953dce163272",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "Successfully login",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "Sign-in failed",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 590,
+        "y": 180,
+        "wires": [
+            [
+                "1f3a28978782c7af"
+            ],
+            [
+                "e3ba9af92efded22"
+            ]
+        ]
+    },
+    {
+        "id": "2ddba30bed38b39a",
+        "type": "ui_group",
+        "name": "Login",
+        "tab": "a9f2214b9f4b2fac",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "514c8da43130db42",
+        "type": "ui_group",
+        "name": "Information",
+        "tab": "b94f6d67d4c6621e",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "a9f2214b9f4b2fac",
+        "type": "ui_tab",
+        "name": "Login",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    },
+    {
+        "id": "b94f6d67d4c6621e",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": true
+    }
+]

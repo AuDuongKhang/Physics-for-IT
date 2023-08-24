@@ -1,0 +1,97 @@
+#include <WiFi.h>
+#include <PubSubClient.h>
+#include"DHTesp.h"
+const int DHT_PIN = 15;
+String tmp;
+DHTesp dhtSensor;
+
+const char* ssid = "Wokwi-GUEST";
+const char* password = "";
+
+//***Set server***
+const char* mqttServer = "broker.hivemq.com"; 
+int port = 1883;
+
+WiFiClient wifiClient;
+PubSubClient mqttClient(wifiClient);
+
+void wifiConnect() {
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println(" Connected!");
+}
+
+void mqttConnect() {
+  while(!mqttClient.connected()) {
+    Serial.println("Attemping MQTT connection...");
+    String clientId = "ESP32Client-";
+    clientId += String(random(0xffff), HEX);
+    if(mqttClient.connect(clientId.c_str())) {
+      Serial.println("connected");
+
+      //***Subscribe all topic you need***
+      mqttClient.subscribe("21127621/led");
+      mqttClient.subscribe("21127621/sinhvien");
+    }
+    else {
+      Serial.println("try again in 5 seconds");
+      delay(5000);
+    }
+  }
+}
+
+//MQTT Receiver
+void callback(char* topic, byte* message, unsigned int length) {
+  Serial.println(topic);
+  String strMsg;
+  for(int i=0; i<length; i++) {
+    strMsg += (char)message[i];
+  }
+  Serial.println(strMsg);
+  char *buffer = new char [50];
+  //***Code here to process the received package***
+  if (tmp != strMsg)
+  {
+    tmp = strMsg;
+  }
+  if (tmp == "21127205")
+  {
+    buffer = "Cao Hoài Yến Vy";
+    mqttClient.publish("21127621/sinhvien",buffer);
+  }
+  else if(tmp == "21127559") {
+    buffer = "Trần Đình Trung";
+    mqttClient.publish("21127621/sinhvien", buffer);
+  }
+  else if (tmp == "21127621")
+  {
+    buffer = "Âu Dương Khang";
+    mqttClient.publish("21127621/sinhvien",buffer);
+  }
+}
+
+void setup() {
+  Serial.begin(9600);
+  Serial.print("Connecting to WiFi");
+  dhtSensor.setup(DHT_PIN,DHTesp::DHT22);
+  pinMode(4 , OUTPUT);
+  wifiConnect();
+  mqttClient.setServer(mqttServer, port);
+  mqttClient.setCallback(callback);
+  mqttClient.setKeepAlive( 90 );
+}
+
+
+void loop() {
+  TempAndHumidity data = dhtSensor.getTempAndHumidity();
+  if(!mqttClient.connected()) {
+    mqttConnect();
+  }
+  mqttClient.loop();
+
+  //***Publish data to MQTT Server***  
+}
+
